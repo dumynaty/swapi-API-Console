@@ -22,34 +22,42 @@ namespace ConsoleUI
             bool loop = true;
             do
             {
-                Console.WriteLine("Choose an option: ");
+                Console.WriteLine("Choose an option:");
                 Console.WriteLine("1. Get a person's basic information by id");
                 Console.WriteLine("2. Get a person's full information by id");
-                Console.WriteLine("*  Exit program\n");
-                Console.Write("Option: ");
+                Console.WriteLine("*  Exit program");
+                Console.Write("\nOption: ");
 
                 string? input = Console.ReadLine();
 
-                switch (input)
+                try
                 {
-                    case "1":
-                        await GetPersonBasicInfoById(client);
-                        break;
-                    case "2":
-                        await GetPersonFullInfoById(client);
-                        break;
-                    case "*":
-                        loop = false;
-                        break;
+                    switch (input)
+                    {
+                        case "1":
+                            await GetPersonBasicInfoById(client);
+                            break;
+                        case "2":
+                            await GetPersonFullInfoById(client);
+                            break;
+                        case "*":
+                            loop = false;
+                            break;
 
-                    default:
-                        Console.WriteLine("Invalid entry! Please choose an option.\n");
-                        break;
+                        default:
+                            Console.WriteLine("Invalid entry! Please choose an option.");
+                            break;
+                    }
+                    Console.WriteLine();
                 }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"\n{ex.Message}\n");
+                }
+
             }
             while (loop == true);
         }
-
 
         private static async Task GetPersonBasicInfoById(HttpClient client)
         {
@@ -62,16 +70,7 @@ namespace ConsoleUI
             }
 
             var person = await api.SafeApiCall<PersonModel>($"api/people/person/{id}");
-            if (person != null)
-            {
-                PrintProperties(person);
-            }
-            else
-            {
-                Console.WriteLine("Character data is empty.");
-            }
-
-            Console.WriteLine();
+            PrintProperties(person);
         }
 
         private static async Task GetPersonFullInfoById(HttpClient client)
@@ -85,35 +84,22 @@ namespace ConsoleUI
             }
 
             var fullPerson = await api.SafeApiCall<FullPersonModel>($"api/people/fullperson/{id}/");
-            if (fullPerson != null)
-            {
-                PrintProperties(fullPerson);
-                Console.WriteLine();
-
-                foreach (var filmPath in fullPerson.Films)
-                {
-                    Console.WriteLine("--- --- --- --- --- --- --- --- --- --- --- --- --- ---");
-                    string filmId = filmPath.Substring(filmPath.Length - 1, 1);
-                    await GetFilmInfo(client, filmId);
-                    Console.WriteLine("--- --- --- --- --- --- --- --- --- --- --- --- --- ---");
-                }
-            }
-            else
-            {
-                Console.WriteLine("Character data is empty.");
-            }
-
+            PrintProperties(fullPerson);
             Console.WriteLine();
+
+            foreach (var filmPath in fullPerson.Films)
+            {
+                Console.WriteLine("--- --- --- --- --- --- --- --- --- --- --- --- --- ---");
+                string filmId = filmPath.Substring(filmPath.Length - 1, 1);
+                await GetFilmInfo(client, filmId);
+                Console.WriteLine("--- --- --- --- --- --- --- --- --- --- --- --- --- ---");
+            }
         }
 
         private static async Task GetFilmInfo(HttpClient client, string id)
         {
             var film = await api.SafeApiCall<FilmModel>($"api/film/filmnumber/{id}/");
-
-            if (film != null)
-            {
-                PrintProperties(film);
-            }
+            PrintProperties(film);
         }
 
         private static void PrintProperties<T>(T model)

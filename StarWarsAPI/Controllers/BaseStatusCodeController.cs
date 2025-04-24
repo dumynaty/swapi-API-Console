@@ -8,11 +8,11 @@ namespace StarWarsAPI.Controllers
     public class BaseStatusCodeController : ControllerBase
     {
         // Returns null when StatusCode is 200 OK
-        protected IActionResult? HandleHttpResponse(HttpResponseMessage response, int id, string resource)
+        protected IActionResult HandleHttpResponse(HttpResponseMessage response, int id, string resource)
         {
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                return null;
+                return Ok();
             }
             if (response.StatusCode == HttpStatusCode.NotFound)
             {

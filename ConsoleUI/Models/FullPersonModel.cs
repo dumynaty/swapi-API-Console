@@ -1,6 +1,5 @@
 ﻿namespace ConsoleUI.Models
 {
-
     public class FullPersonModel
     {
         public string Name { get; set; }

@@ -2,9 +2,9 @@ using Microsoft.AspNetCore.Mvc;
 using StarWarsAPI.Controllers;
 using System.Net;
 
-namespace StarWarsAPI.Tests
+namespace StarWarsAPI.Tests.StarWarsAPI
 {
-    public class BaseControllerTests
+    public class BaseStatusCodeControllerTests
     {
         // Test Successful status code
         [Fact]

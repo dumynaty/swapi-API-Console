@@ -15,13 +15,13 @@ namespace StarWarsAPI.Controllers
             _httpClient.BaseAddress = new Uri($"{ BaseUrl }");
         }
 
+
         [HttpGet("filmnumber/{id}")]
         public async Task<IActionResult> GetFilm(int id)
         {
             var response = await _httpClient.GetAsync($"films/{id}");
-            var result = HandleHttpResponse(response, id, "Film");
 
-            if (result == null)
+            if (response.IsSuccessStatusCode)
             {
                 // Return HttpResponseMessage Ok Film object
                 var film = await response.Content.ReadFromJsonAsync<FilmModel>();
@@ -30,6 +30,7 @@ namespace StarWarsAPI.Controllers
             else
             {
                 // Return HttpResponseMessage Error
+                var result = HandleHttpResponse(response, id, "Film");
                 return result;
             }
         }

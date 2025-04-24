@@ -5,7 +5,7 @@ using Moq.Protected;
 using ConsoleUI.Models;
 using System.Net.Http.Json;
 
-namespace ConsoleUI.Tests.Services
+namespace StarWarsAPI.Tests.ConsoleUI
 {
     public class APIServiceTests
     {
@@ -48,7 +48,8 @@ namespace ConsoleUI.Tests.Services
             Assert.Equal("172", person.Height);
             Assert.Equal("77", person.Mass);
 
-            mockHttpMessageHandler.Protected()
+            mockHttpMessageHandler
+                .Protected()
                 .Verify
                 (
                     "SendAsync",
@@ -98,7 +99,8 @@ namespace ConsoleUI.Tests.Services
             // Assert
             Assert.Null(person);
 
-            mockMessageHandler.Protected()
+            mockMessageHandler
+                .Protected()
                 .Verify
                 (
                     "SendAsync",

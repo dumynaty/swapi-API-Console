@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Json;
+﻿using ConsoleUI.Exceptions;
+using System.Net.Http.Json;
 using System.Text.Json;
 
 namespace ConsoleUI.Services
@@ -11,13 +12,8 @@ namespace ConsoleUI.Services
             _client = client;
         }
 
-        /// <summary>
-        /// Reads the HTTP content and returns the value that results from deserializing the content as JSON in an asynchronous operation.
-        /// </summary>
-        /// <param name="endpoint">The endpoint location of the API to call on.</param>
-        /// <typeparam name="T">The target type to deserialize to.</typeparam>
-        /// <returns>The task object representing the asynchronous operation.</returns>
-        public async Task<T?> SafeApiCall<T>(string endpoint)
+
+        public async Task<T> SafeApiCall<T>(string endpoint)
         {
             try
             {
@@ -25,34 +21,35 @@ namespace ConsoleUI.Services
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var result = await response.Content.ReadFromJsonAsync<T>();
-                    return result;
+                    var model = await response.Content.ReadFromJsonAsync<T>();
+                    return model ?? throw new JsonException();
                 }
                 else
                 {
-                    var content = await response.Content.ReadAsStringAsync();
-                    Console.WriteLine($"\nError {response.StatusCode}: {content}\n");
-                    return default;
+                    var errorMessage = await response.Content.ReadAsStringAsync();
+                    throw new APIException($"Error {response.StatusCode}. {errorMessage}");
                 }
             }
-            catch (HttpRequestException httpEx)
+            catch (HttpRequestException)
             {
-                Console.WriteLine($"\nNetwork error! {httpEx.Message}\n");
+                throw new APIException($"Request error.");
             }
-            catch (NotSupportedException notSupEx)
+            catch (TaskCanceledException)
             {
-                Console.WriteLine($"\nUnsupported content type: {notSupEx.Message}\n");
+                throw new APIException($"Request timeout or canceled.");
             }
-            catch (JsonException jsonEx)
+            catch (JsonException)
             {
-                Console.WriteLine($"\nError parsing response: {jsonEx.Message}\n");
+                throw new APIException($"Error deserializing response. The JSON format may not match the expected model.");
+            }
+            catch (APIException)
+            {
+                throw;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"\nUnexpected error: {ex.Message}\n{ex.StackTrace}\n");
+                throw new APIException($"An unexpected error occurred while calling the API. {ex.Message}");
             }
-
-            return default;
         }
     }
 }

@@ -6,7 +6,7 @@ using StarWarsAPI.Models;
 using System.Net;
 using System.Net.Http.Json;
 
-namespace StarWarsAPI.Tests
+namespace StarWarsAPI.Tests.StarWarsAPI
 {
     public class PeopleControllerTests
     {
@@ -21,9 +21,9 @@ namespace StarWarsAPI.Tests
                 Height = "172",
                 Mass = "77"
             };
+            var jsonMockPersonContent = JsonContent.Create(mockPerson);
 
             var mockHttpMessageHandler = new Mock<HttpMessageHandler>();
-
             mockHttpMessageHandler
                 .Protected()
                 .Setup<Task<HttpResponseMessage>>
@@ -35,7 +35,7 @@ namespace StarWarsAPI.Tests
                 .ReturnsAsync(new HttpResponseMessage
                 {
                     StatusCode = HttpStatusCode.OK,
-                    Content = JsonContent.Create(mockPerson)
+                    Content = jsonMockPersonContent
                 });
 
             var mockClient = new HttpClient(mockHttpMessageHandler.Object)
@@ -71,9 +71,9 @@ namespace StarWarsAPI.Tests
                 Height = "172",
                 Mass = "77"
             };
+            var jsonMockPersonContent = JsonContent.Create(mockPerson);
 
             var mockHttpMessageHandler = new Mock<HttpMessageHandler>();
-
             mockHttpMessageHandler
                 .Protected()
                 .Setup<Task<HttpResponseMessage>>
@@ -85,7 +85,7 @@ namespace StarWarsAPI.Tests
                 .ReturnsAsync(new HttpResponseMessage
                 {
                     StatusCode = HttpStatusCode.Unauthorized,
-                    Content = JsonContent.Create(mockPerson)
+                    Content = jsonMockPersonContent
                 });
 
             var mockClient = new HttpClient(mockHttpMessageHandler.Object)
