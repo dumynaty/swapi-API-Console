@@ -8,7 +8,7 @@ namespace StarWarsAPI.Tests.StarWarsAPI
     {
         // Test Successful status code
         [Fact]
-        public void HandleHttpResponse_StatusCodeSuccessful_ReturnsNull()
+        public void HandleHttpResponse_StatusCodeSuccessful_ReturnsOk()
         {
             // Arrange
             var controller = new TestController();
@@ -20,7 +20,10 @@ namespace StarWarsAPI.Tests.StarWarsAPI
             var result = controller.MockHandleHttpResponse(response, id, resource);
 
             // Assert
-            Assert.Null(result);
+            Assert.NotNull(result);
+            Assert.IsType<OkResult>(result);
+            var okResult = (OkResult)result;
+            Assert.Equal((int)HttpStatusCode.OK, okResult.StatusCode);
         }
 
         // Test NotFound status code
@@ -43,7 +46,7 @@ namespace StarWarsAPI.Tests.StarWarsAPI
             Assert.Equal($"{resource} with ID {id} is not found.", notFoundResult.Value);
         }
 
-        // Generally test multiple status codes
+        // Test multiple status codes
         [Theory]
         [InlineData(HttpStatusCode.NotFound, typeof(NotFoundObjectResult), "Person with ID 5 is not found.")]
         [InlineData(HttpStatusCode.BadRequest, typeof(BadRequestObjectResult), "Invalid request.")]
@@ -68,6 +71,7 @@ namespace StarWarsAPI.Tests.StarWarsAPI
             // Cast result to its parent and get the Value property which contains the message
             var resultMessage = (ObjectResult)result;
             Assert.Equal(expectedMessage, resultMessage.Value);
+            Assert.Equal((int)statusCode, resultMessage.StatusCode);
         }
     }
 
