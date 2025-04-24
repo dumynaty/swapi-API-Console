@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35728.132
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleUI", "ConsoleUI\ConsoleUI.csproj", "{2DFDC185-3169-423E-BF3E-2C2A4AFDDC0E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarWarsAPI", "StarWarsAPI\StarWarsAPI.csproj", "{4EAFEC2F-F393-47E1-B57C-70BC5616683E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarWarsAPI.Tests", "StarWarsAPI.Tests\StarWarsAPI.Tests.csproj", "{4D22368B-B7C2-4319-BC44-B8A44A833E32}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2DFDC185-3169-423E-BF3E-2C2A4AFDDC0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DFDC185-3169-423E-BF3E-2C2A4AFDDC0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DFDC185-3169-423E-BF3E-2C2A4AFDDC0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DFDC185-3169-423E-BF3E-2C2A4AFDDC0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4EAFEC2F-F393-47E1-B57C-70BC5616683E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4EAFEC2F-F393-47E1-B57C-70BC5616683E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4EAFEC2F-F393-47E1-B57C-70BC5616683E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4EAFEC2F-F393-47E1-B57C-70BC5616683E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D22368B-B7C2-4319-BC44-B8A44A833E32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D22368B-B7C2-4319-BC44-B8A44A833E32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D22368B-B7C2-4319-BC44-B8A44A833E32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D22368B-B7C2-4319-BC44-B8A44A833E32}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8225250F-88DE-4C79-93E1-A47523D2C887}
+	EndGlobalSection
+EndGlobal
